@@ -1,8 +1,13 @@
+// // import PropTypes from "prop-types";
+import { ContactItem } from './ContactItem';
 
-// export const ContactList = ({userName,userNumber})=>{
-// return (<>
-// <h2>Contacts</h2>
-// <p>{userName}</p>
-// <p>{userNumber}</p>
-// </>  );
-// }
+export const ContactList = ({ contacts }) => {
+  return (
+    <ul>
+      {contacts.map(contact => {
+        const { name, number, id } = contact;
+        return <ContactItem name={name} number={number} key={id} />;
+      })}
+    </ul>
+  );
+};

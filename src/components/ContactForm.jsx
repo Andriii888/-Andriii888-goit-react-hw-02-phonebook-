@@ -5,11 +5,26 @@ state = {
 name:'',
 number:'',
 }
+
+handleInputChange = e => {
+    this.setState({ [e.currentTarget.name]: e.currentTarget.value });
+  };
+
+  handleSubmit = (e)=>{
+    e.preventDefault();
+   this.props.onSubmit(this.state);
+   this.reset();
+  }
+
+  reset = () => {
+    this.setState({name:'',number:''} );
+   
+  };
 render() {
     const {name,number}= this.state;
    return <>
    <h2>Name</h2>
-   <form >
+   <form onSubmit={this.handleSubmit}>
     <label htmlFor="name"><input
           onChange={this.handleInputChange}
           type="text"
@@ -29,7 +44,7 @@ render() {
           title="Phone number must be digits and can contain spaces, dashes, parentheses and can start with +"
           required
         /></label>
-        <button type="submit" onSubmit={this.handleClickAdd}>
+        <button type="submit" onSubmit={this.handleSubmit}>
           Add contact
         </button>
     </form></>

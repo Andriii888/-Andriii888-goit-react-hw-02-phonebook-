@@ -1,6 +1,9 @@
 import { Component } from 'react';
-import { Contact } from './Contact';
+import { ContactList } from './ContactList';
 import { nanoid } from 'nanoid';
+import {ContactForm} from './ContactForm';
+import {Filter} from './Filter'
+
 
 export class App extends Component {
   state = {
@@ -9,13 +12,13 @@ export class App extends Component {
     {id: 'id-3', name: 'Eden Clements', number: '645-17-79'},
     {id: 'id-4', name: 'Annie Copeland', number: '227-91-26'},],
     filter: '',
-    name: '',
-    number: '',
+    // name: '',
+    // number: '',
   };
 
-  handleInputChange = e => {
-    this.setState({ [e.currentTarget.name]: e.currentTarget.value });
-  };
+  // handleInputChange = e => {
+  //   this.setState({ [e.currentTarget.name]: e.currentTarget.value });
+  // };
 
   handleClickAdd = () => {
     const { name, number } = this.state;
@@ -25,10 +28,10 @@ export class App extends Component {
    
   };
 
-  reset = () => {
-    this.setState({name:'',number:''} );
+  // reset = () => {
+  //   this.setState({name:'',number:''} );
    
-  };
+  // };
 
   changeFilter=(e)=>{
 this.setState({filter:e.currentTarget.value})
@@ -39,14 +42,21 @@ this.setState({filter:e.currentTarget.value})
     const normalizedFilter = filter.toLowerCase();
 return contacts.filter(contact =>contact.name.toLowerCase().includes(normalizedFilter))
   }
-  
+
+  forSubmitHandler=(data)=>{
+    const { name, number } = data;
+    const id = nanoid();
+    this.setState(prevState=>{return {contacts:[{ id, name, number },...prevState.contacts]} });
+  }
+
   render() {
-   const{name,number,filter} = this.state;
+   const{filter} = this.state;
 const visibleContacts = this.getVisibleContacts();
     return (
       <div>
         <h1>PhoneBook</h1>
-        <h2>Name</h2>
+        <ContactForm onSubmit={this.forSubmitHandler}/>
+        {/* <h2>Name</h2>
         <input
           onChange={this.handleInputChange}
           type="text"
@@ -69,9 +79,10 @@ const visibleContacts = this.getVisibleContacts();
 
         <button type="button" onClick={this.handleClickAdd}>
           Add contact
-        </button>
+        </button> */}
         <h2>Contacts</h2>
-        <h3>Finde contacts by name</h3>
+        <Filter value={filter} onChange={this.changeFilter}/>
+        {/* <h3>Finde contacts by name</h3>
         <input
           onChange={this.changeFilter}
           type="text"
@@ -80,8 +91,8 @@ const visibleContacts = this.getVisibleContacts();
           pattern="\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}"
           title="Finde contacts by name"
           required
-        />
-        <ul><Contact contacts={visibleContacts}/></ul>
+        /> */}
+        <ContactList contacts={visibleContacts}/>
         
       </div>
     );
