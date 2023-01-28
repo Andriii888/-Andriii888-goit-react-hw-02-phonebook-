@@ -3,6 +3,7 @@ import { ContactList } from './ContactList';
 import { nanoid } from 'nanoid';
 import { ContactForm } from './ContactForm';
 import { Filter } from './Filter';
+import { Appstyle } from './App.styled';
 
 export class App extends Component {
   state = {
@@ -42,27 +43,31 @@ export class App extends Component {
       this.setState(prevState => {
         return { contacts: [{ id, name, number }, ...prevState.contacts] };
       });
-    }else{return alert(`${name} is already in contacts`);}
+    } else {
+      return alert(`${name} is already in contacts`);
+    }
   };
 
-  deleteContact= (id)=>{
-    
-    this.setState(p=>({
-      contacts:p.contacts.filter(contact=>contact.id !== id)
-    }))
-  }
+  deleteContact = id => {
+    this.setState(p => ({
+      contacts: p.contacts.filter(contact => contact.id !== id),
+    }));
+  };
 
   render() {
     const { filter } = this.state;
     const visibleContacts = this.getVisibleContacts();
     return (
-      <div>
+      <Appstyle>
         <h1>PhoneBook</h1>
         <ContactForm onSubmit={this.forSubmitHandler} />
         <h2>Contacts</h2>
         <Filter value={filter} onChange={this.changeFilter} />
-        <ContactList contacts={visibleContacts} onDeleteContact={this.deleteContact}/>
-      </div>
+        <ContactList
+          contacts={visibleContacts}
+          onDeleteContact={this.deleteContact}
+        />
+      </Appstyle>
     );
   }
 }
